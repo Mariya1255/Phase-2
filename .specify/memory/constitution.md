@@ -1,55 +1,114 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- SYNC IMPACT REPORT
+Version change: 1.0.0 → 1.1.0
+Modified principles: None (new constitution created based on user input)
+Added sections: Core Principles (5 principles), Key Standards, Constraints, Success Criteria
+Removed sections: None
+Templates requiring updates:
+- .specify/templates/plan-template.md ✅ updated
+- .specify/templates/spec-template.md ✅ updated
+- .specify/templates/tasks-template.md ✅ updated
+- .specify/templates/commands/*.md ⚠ pending review
+Follow-up TODOs: None
+-->
+
+# Todo Full-Stack Web Application (Phase-2) Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Spec-Driven Development
+All behavior must be defined before implementation begins. Every feature and functionality must be traced back to an approved specification document before coding commences.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Agentic Workflow Enforcement
+Implementation must follow the strict sequence: spec → plan → tasks → execution. No skipping steps in the development process; each phase must be completed before moving to the next.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Security by Design
+Authentication and authorization must be enforced at every layer of the application. Security considerations are built into the architecture from the ground up, not added as an afterthought.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Data Integrity and User Isolation
+Strict ownership of tasks and data must be maintained. Users can only access and modify their own data, with proper validation and enforcement at all system boundaries.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Reproducibility
+Every feature must be traceable to a spec requirement. All development work must be reproducible and verifiable through the documented specification-to-implementation pipeline.
 
-### [PRINCIPLE_6_NAME]
+### VI. No Manual Coding
+All implementation must be performed using Claude Code and Spec-Kit Plus. Manual coding outside of the agentic workflow is prohibited.
 
+## Key Standards
 
-[PRINCIPLE__DESCRIPTION]
+### Technology Stack Adherence
+- Frontend: Next.js 16+ (App Router)
+- Backend: Python FastAPI
+- ORM: SQLModel
+- Database: Neon Serverless PostgreSQL
+- Authentication: Better Auth + JWT
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### API Requirements
+- All REST API endpoints must follow resource-based conventions
+- Proper HTTP status codes must be used consistently
+- All API endpoints require authentication after user login
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### Authentication Standards
+- Authentication must use Better Auth with JWT-based verification
+- Backend must validate JWT tokens on every request
+- Database queries must always be scoped to the authenticated user
+- Frontend must attach JWT token to every API request
+- JWT secret must be shared via environment variable `BETTER_AUTH_SECRET`
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### Error Handling
+- Error handling must be explicit and consistent
+- Standardized error responses: 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error
+- All error cases must be properly handled and tested
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Constraints
+
+### Technology Stack
+The technology stack is fixed and non-negotiable:
+- Frontend: Next.js 16+ (App Router)
+- Backend: Python FastAPI
+- ORM: SQLModel
+- Database: Neon Serverless PostgreSQL
+- Authentication: Better Auth + JWT
+
+### Feature Requirements
+- All five Basic Level features must be implemented
+- All API endpoints require authentication after login
+- JWT secret must be shared via environment variable `BETTER_AUTH_SECRET`
+- Stateless authentication only (no backend session storage)
+- Multi-user support is mandatory
+
+### Implementation Restrictions
+- No manual coding; all implementation via Claude Code
+- All functionality must map directly to an approved spec
+- Backend must validate JWT tokens on every request
+- Database queries must always be scoped to the authenticated user
+
+## Success Criteria
+
+### User Authentication
+- Users can sign up and sign in successfully
+- Authenticated users can only access their own tasks
+- Unauthorized requests return 401 Unauthorized
+- Task ownership is enforced on every CRUD operation
+
+### API Functionality
+- All REST API endpoints function as specified
+- Data persists correctly in Neon PostgreSQL
+- Backend properly validates JWT tokens and enforces user isolation
+
+### Frontend Experience
+- Frontend is responsive and fully functional
+- All UI components work as expected
+- User authentication flows work seamlessly
+
+### System Quality
+- Entire system passes spec-to-implementation traceability review
+- All tests pass and code quality standards are met
+- Security requirements are properly implemented
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+All development activities must comply with this constitution. Any deviation from these principles requires explicit amendment to the constitution document. The development process must follow the spec-driven approach with proper documentation and traceability from requirements to implementation.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+Code reviews must verify compliance with all constitutional principles. All features must be traceable to specification requirements, and all implementation must follow the agentic workflow.
+
+**Version**: 1.1.0 | **Ratified**: 2026-01-12 | **Last Amended**: 2026-01-12

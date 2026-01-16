@@ -1,0 +1,126 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Project-specific
+.backend/
+.frontend/
+.next/
+.nuxt/
+dist/
+build/
+public/build/
+coverage/
+.pytest_cache/
+.coverage
+
+# Environment variables
+.env*
+!.env.example
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Icon?
+apidoc/
+
+# Python
+*.so
+.Python
+*.py[cod]
+*$py.class
+*.zip
+*.db
+*.sqlite
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# FastAPI / uvicorn
+uvicorn_error.log
+uvicorn_access.log
+
+# Next.js
+.next/
+out/
+dist/
+.node-version
+.vercel/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Temporary folders
+tmp/
+temp/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+.svelte-kit/
+.cargo/
+target/
+
+# Docker
+.dockerenv
+Dockerfile*
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets
+secrets/
+credentials.json
