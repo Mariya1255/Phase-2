@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from backend.src.models.user import User, UserCreate
-from backend.src.lib.jwt_utils import create_access_token
+from ..models.user import User, UserCreate
+from ..lib.jwt_utils import create_access_token
 from passlib.context import CryptContext
 from typing import Optional
 from datetime import timedelta

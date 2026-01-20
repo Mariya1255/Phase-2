@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import Dict, Optional
-from backend.src.lib.jwt_utils import verify_token
+from ..lib.jwt_utils import verify_token
 
 security = HTTPBearer()
 

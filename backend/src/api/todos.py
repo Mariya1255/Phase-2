@@ -3,10 +3,10 @@ from sqlmodel import Session
 from typing import List
 from uuid import UUID
 
-from backend.src.database.database import get_session
-from backend.src.middleware.auth_middleware import get_user_id_from_token
-from backend.src.models.todo import Todo, TodoCreate, TodoUpdate, TodoResponse
-from backend.src.services.todo_service import (
+from ..database.database import get_session
+from ..middleware.auth_middleware import get_user_id_from_token
+from ..models.todo import Todo, TodoCreate, TodoUpdate, TodoResponse
+from ..services.todo_service import (
     create_todo, get_todos_by_user, get_todo_by_id_and_user,
     update_todo_by_id_and_user, delete_todo_by_id_and_user, toggle_todo_completion
 )

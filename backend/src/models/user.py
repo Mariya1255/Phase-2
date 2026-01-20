@@ -14,7 +14,7 @@ class User(UserBase, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
-    # Relationship with Todo
+    # Relationship with Todo - using string reference to avoid circular import
     todos: List["Todo"] = Relationship(back_populates="user")
 
 
@@ -26,7 +26,3 @@ class UserResponse(UserBase):
     id: UUID
     created_at: datetime
     updated_at: datetime
-
-
-# Need to import Todo after User is defined to avoid circular import issues
-from .todo import Todo

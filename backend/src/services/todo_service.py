@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from backend.src.models.todo import Todo, TodoCreate, TodoUpdate
-from backend.src.models.user import User
+from ..models.todo import Todo, TodoCreate, TodoUpdate
+from ..models.user import User
 from typing import List, Optional
 from uuid import UUID
 

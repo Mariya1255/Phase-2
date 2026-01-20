@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session
-from backend.src.database.database import get_session
-from backend.src.models.user import UserCreate, UserResponse
-from backend.src.services.auth import create_user, login_user
-from typing import Dict
+from ..database.database import get_session
+from ..models.user import UserCreate, UserResponse
+from ..services.auth import create_user, login_user
+from typing import Dict, Any
 
 router = APIRouter()
 
 
-@router.post("/signup", response_model=Dict[str, any])
+@router.post("/signup", response_model=Dict[str, Any])
 def signup(user: UserCreate, session: Session = Depends(get_session)):
     """
     Register a new user
@@ -38,7 +38,7 @@ def signup(user: UserCreate, session: Session = Depends(get_session)):
         )
 
 
-@router.post("/signin", response_model=Dict[str, any])
+@router.post("/signin", response_model=Dict[str, Any])
 def signin(user: UserCreate, session: Session = Depends(get_session)):
     """
     Authenticate a user and return access token

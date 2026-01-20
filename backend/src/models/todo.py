@@ -12,11 +12,11 @@ class TodoBase(SQLModel):
 
 class Todo(TodoBase, table=True):
     id: UUID = Field(default_factory=uuid4, primary_key=True)
-    user_id: UUID = Field(foreign_key="user.id", nullable=False)
+    user_id: UUID = Field(foreign_key="user.id", nullable=False)  # Reference to user table
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
-    # Relationship with User
+    # Relationship with User - using string reference to avoid circular import
     user: "User" = Relationship(back_populates="todos")
 
 
@@ -35,7 +35,3 @@ class TodoResponse(TodoBase):
     user_id: UUID
     created_at: datetime
     updated_at: datetime
-
-
-# Need to import User after Todo is defined to avoid circular import issues
-from .user import User

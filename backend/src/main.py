@@ -1,25 +1,20 @@
 import sys
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from dotenv import load_dotenv
+
+# Import exception handlers
 from .exception_handlers import (
     http_exception_handler,
     validation_exception_handler,
     general_exception_handler
 )
-from fastapi.exceptions import RequestValidationError
-from starlette.exceptions import HTTPException as StarletteHTTPException
-
-# Add the current directory to the Python path to allow relative imports
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Load environment variables
 load_dotenv()
-
-# Import API routers - these are in the api subdirectory relative to this file
-from api.auth import router as auth_router
-from api.todos import router as todos_router
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -28,7 +23,7 @@ def create_app() -> FastAPI:
         version="1.0.0"
     )
 
-    # Register exception handlers to ensure JSON responses
+    # Register exception handlers to ensure proper JSON responses
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(Exception, general_exception_handler)
@@ -49,9 +44,39 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # Include API routes
-    app.include_router(auth_router, prefix="/api/auth", tags=["authentication"])
-    app.include_router(todos_router, prefix="/api/todos", tags=["todos"])
+    # Try to import and include API routes
+    try:
+        from .api.auth import router as auth_router
+        from .api.todos import router as todos_router
+
+        # Include API routes
+        app.include_router(auth_router, prefix="/api/auth", tags=["authentication"])
+        app.include_router(todos_router, prefix="/api/todos", tags=["todos"])
+
+        print("API routes successfully loaded")
+    except ImportError as e:
+        print(f"Warning: Could not import API routes: {e}")
+        print("This may be due to Python 3.13 compatibility issues with SQLModel/SQLAlchemy.")
+        print("The server will start with basic endpoints only.")
+
+        # Create fallback auth routes that return meaningful error messages
+        @app.post("/api/auth/signin")
+        def signin_fallback():
+            from fastapi.responses import JSONResponse
+            from fastapi import status
+            return JSONResponse(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                content={"detail": "Authentication service temporarily unavailable. Please check server logs."}
+            )
+
+        @app.post("/api/auth/signup")
+        def signup_fallback():
+            from fastapi.responses import JSONResponse
+            from fastapi import status
+            return JSONResponse(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                content={"detail": "Registration service temporarily unavailable. Please check server logs."}
+            )
 
     @app.get("/")
     def read_root():
