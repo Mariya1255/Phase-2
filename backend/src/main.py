@@ -5,6 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from dotenv import load_dotenv
+from sqlmodel import SQLModel
+from .database.database import engine
 
 # Import exception handlers
 from .exception_handlers import (
@@ -13,8 +15,20 @@ from .exception_handlers import (
     general_exception_handler
 )
 
-# Load environment variables
-load_dotenv()
+# Import models to register them with SQLModel
+from .models.user import User
+from .models.todo import Todo
+
+# Load environment variables from backend directory
+# Ensure we load from the right location regardless of where the script is run from
+backend_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+env_path = os.path.join(backend_dir, '.env')
+
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+else:
+    # Fallback to current working directory
+    load_dotenv()
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -22,6 +36,12 @@ def create_app() -> FastAPI:
         description="Secure Todo Management API with JWT Authentication",
         version="1.0.0"
     )
+
+    # Create tables automatically on startup
+    @app.on_event("startup")
+    def on_startup():
+        SQLModel.metadata.create_all(bind=engine)
+        print("Database tables created successfully!")
 
     # Register exception handlers to ensure proper JSON responses
     app.add_exception_handler(StarletteHTTPException, http_exception_handler)

@@ -28,7 +28,7 @@ def signup(user: UserCreate, session: Session = Depends(get_session)):
         }
     except ValueError as e:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
     except Exception as e:

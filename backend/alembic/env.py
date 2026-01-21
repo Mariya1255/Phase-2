@@ -2,7 +2,11 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
-from backend.src.database.database import DATABASE_URL
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__))))  # Add backend/ to path
+
+from src.database.database import DATABASE_URL
 
 # this is the Alembic Config object
 config = context.config
@@ -15,8 +19,8 @@ if config.config_file_name is not None:
 config.set_main_option('sqlalchemy.url', DATABASE_URL)
 
 # Import your models here for autogenerate support
-from backend.src.models.user import User
-from backend.src.models.todo import Todo
+from src.models.user import User
+from src.models.todo import Todo
 target_metadata = [User.metadata, Todo.metadata]
 
 

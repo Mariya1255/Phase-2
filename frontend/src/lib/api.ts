@@ -3,7 +3,8 @@ import { getToken } from './auth';
 // Base API client with JWT handling
 const apiClient = {
   get: async (endpoint: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Fallback to default
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${getToken()}`,
@@ -47,7 +48,8 @@ const apiClient = {
   },
 
   post: async (endpoint: string, data: any) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Fallback to default
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${getToken()}`,
@@ -92,7 +94,8 @@ const apiClient = {
   },
 
   put: async (endpoint: string, data: any) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Fallback to default
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${getToken()}`,
@@ -137,7 +140,8 @@ const apiClient = {
   },
 
   patch: async (endpoint: string, data: any) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Fallback to default
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${getToken()}`,
@@ -182,7 +186,8 @@ const apiClient = {
   },
 
   delete: async (endpoint: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'; // Fallback to default
+    const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${getToken()}`,
