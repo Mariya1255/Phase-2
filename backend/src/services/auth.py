@@ -1,4 +1,5 @@
 from sqlmodel import Session, select
+from sqlalchemy.exc import IntegrityError
 from ..models.user import User, UserCreate
 from ..lib.jwt_utils import create_access_token
 from passlib.context import CryptContext
@@ -38,8 +39,11 @@ def authenticate_user(session: Session, email: str, password: str) -> Optional[U
             return None
 
         return user
+    except IntegrityError:
+        # Handle database integrity errors during authentication
+        return None
     except Exception:
-        # Handle any database or other errors during authentication
+        # Handle any other errors during authentication
         return None
 
 
@@ -48,11 +52,6 @@ def create_user(session: Session, user_create: UserCreate) -> User:
     Create a new user with hashed password
     """
     try:
-        # Check if user already exists
-        existing_user = session.exec(select(User).where(User.email == user_create.email)).first()
-        if existing_user:
-            raise ValueError("Email already registered")
-
         # Hash the password
         hashed_password = get_password_hash(user_create.password)
 
@@ -67,8 +66,13 @@ def create_user(session: Session, user_create: UserCreate) -> User:
         session.refresh(user)
 
         return user
+    except IntegrityError as ie:
+        # Handle database integrity errors (like duplicate email)
+        session.rollback()
+        raise ValueError(f"Email already registered: {str(ie)}")
     except ValueError as ve:
         # Re-raise ValueError for validation issues (like password length)
+        session.rollback()
         raise ve
     except Exception as e:
         # Rollback in case of any error during user creation
@@ -97,13 +101,16 @@ def login_user(session: Session, email: str, password: str) -> dict:
             "access_token": access_token,
             "token_type": "bearer",
             "user": {
-                "id": user.id,
+                "id": str(user.id),  # Convert UUID to string to match expected format
                 "email": user.email
             }
         }
     except ValueError:
         # Re-raise ValueError for invalid credentials
         raise
+    except IntegrityError as ie:
+        # Handle database integrity errors during login
+        raise ValueError(f"Database error during authentication: {str(ie)}")
     except Exception as e:
         # Handle any other unexpected errors during login
-        raise ValueError("An error occurred during authentication")
+        raise ValueError(f"An error occurred during authentication: {str(e)}")
