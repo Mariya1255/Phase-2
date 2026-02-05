@@ -1,7 +1,8 @@
 from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError
 from ..models.user import User, UserCreate
-from ..lib.jwt_utils import create_access_token
+from ..utils.jwt import create_access_token
+from ..logging import log_auth_event
 from passlib.context import CryptContext
 from typing import Optional
 from datetime import timedelta
@@ -65,18 +66,53 @@ def create_user(session: Session, user_create: UserCreate) -> User:
         session.commit()
         session.refresh(user)
 
+        # Log successful registration
+        log_auth_event(
+            event_type='registration',
+            user_id=str(user.id),
+            email=user.email,
+            success=True
+        )
+
         return user
     except IntegrityError as ie:
         # Handle database integrity errors (like duplicate email)
         session.rollback()
+
+        # Log failed registration
+        log_auth_event(
+            event_type='failed_registration',
+            email=user_create.email,
+            success=False,
+            details={'reason': 'duplicate_email', 'error': str(ie)}
+        )
+
         raise ValueError(f"Email already registered: {str(ie)}")
     except ValueError as ve:
         # Re-raise ValueError for validation issues (like password length)
         session.rollback()
+
+        # Log failed registration due to validation
+        log_auth_event(
+            event_type='failed_registration',
+            email=user_create.email,
+            success=False,
+            details={'reason': 'validation_error', 'error': str(ve)}
+        )
+
         raise ve
     except Exception as e:
         # Rollback in case of any error during user creation
         session.rollback()
+
+        # Log failed registration due to unexpected error
+        log_auth_event(
+            event_type='failed_registration',
+            email=user_create.email,
+            success=False,
+            details={'reason': 'unexpected_error', 'error': str(e)}
+        )
+
         raise e
 
 
@@ -88,7 +124,22 @@ def login_user(session: Session, email: str, password: str) -> dict:
         user = authenticate_user(session, email, password)
 
         if not user:
+            # Log failed login attempt
+            log_auth_event(
+                event_type='failed_login',
+                email=email,
+                success=False,
+                details={'reason': 'invalid_credentials'}
+            )
             raise ValueError("Invalid email or password")
+
+        # Log successful login
+        log_auth_event(
+            event_type='login',
+            user_id=str(user.id),
+            email=user.email,
+            success=True
+        )
 
         # Create access token
         access_token_expires = timedelta(minutes=30)  # 30 minutes expiry

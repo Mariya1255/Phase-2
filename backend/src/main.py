@@ -68,10 +68,14 @@ def create_app() -> FastAPI:
     try:
         from .api.auth import router as auth_router
         from .api.todos import router as todos_router
+        from .api.protected import router as protected_router
+        from .api.tasks import router as tasks_router
 
         # Include API routes
         app.include_router(auth_router, prefix="/api/auth", tags=["authentication"])
         app.include_router(todos_router, prefix="/api/todos", tags=["todos"])
+        app.include_router(protected_router, prefix="/api/protected", tags=["protected"])
+        app.include_router(tasks_router, prefix="/api/tasks", tags=["tasks"])
 
         print("API routes successfully loaded")
     except ImportError as e:

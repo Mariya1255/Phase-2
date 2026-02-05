@@ -17,6 +17,9 @@ class User(UserBase, table=True):
     # Relationship with Todo - using string reference to avoid circular import
     todos: List["Todo"] = Relationship(back_populates="user")
 
+    # Relationship with Task
+    tasks: List["Task"] = Relationship(back_populates="user")
+
 
 class UserCreate(UserBase):
     password: str
