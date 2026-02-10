@@ -13,7 +13,7 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validation
@@ -41,7 +41,7 @@ const SignupPage = () => {
       // Redirect to dashboard or home page after successful signup
       router.push('/dashboard');
     } catch (err) {
-      setError(err.message || 'An error occurred during signup');
+      setError(err instanceof Error ? err.message : 'An error occurred during signup');
     } finally {
       setLoading(false);
     }

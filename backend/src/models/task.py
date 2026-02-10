@@ -28,6 +28,12 @@ class TaskCreate(TaskBase):
     title: str
     user_id: UUID
 
+class TaskCreateRequest(SQLModel):
+    """Schema for task creation request from frontend (without user_id)"""
+    title: str = Field(min_length=1, max_length=255)
+    description: Optional[str] = Field(default=None, max_length=1000)
+    status: Optional[TaskStatus] = Field(default=TaskStatus.PENDING)
+
 class TaskUpdate(SQLModel):
     title: Optional[str] = None
     description: Optional[str] = None

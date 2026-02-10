@@ -1,5 +1,5 @@
 // API client wrapper with token inclusion
-import { apiService } from './api';
+import { apiService } from '../services/api';
 
 /**
  * API Client that wraps the ApiService to provide specific endpoints
@@ -50,6 +50,10 @@ class ApiClient {
 
   static async put<T>(endpoint: string, body: any): Promise<T> {
     return apiService.put<T>(endpoint, body);
+  }
+
+  static async patch<T>(endpoint: string, body: any): Promise<T> {
+    return apiService.patch<T>(endpoint, body);
   }
 
   static async delete<T>(endpoint: string): Promise<T> {

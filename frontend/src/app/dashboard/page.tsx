@@ -61,6 +61,13 @@ const DashboardPage = () => {
               <h2 className="text-2xl font-bold text-gray-800 mb-2">Welcome to Your Dashboard!</h2>
               <p className="text-gray-600">This is a protected page that requires authentication.</p>
               <p className="text-gray-500 mt-2">User ID: {user?.user_id}</p>
+
+              <button
+                onClick={() => router.push('/dashboard/tasks')}
+                className="mt-6 px-6 py-3 text-base font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-sm transition-colors"
+              >
+                My Tasks
+              </button>
             </div>
           </div>
         </div>

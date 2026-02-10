@@ -16,7 +16,8 @@ interface Todo {
 }
 
 export default function TodoDetailPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id as string;
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [todo, setTodo] = useState<Todo | null>(null);

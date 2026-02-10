@@ -12,7 +12,7 @@ const SigninPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validation
@@ -30,7 +30,7 @@ const SigninPage = () => {
       // Redirect to dashboard or home page after successful login
       router.push('/dashboard');
     } catch (err) {
-      setError(err.message || 'An error occurred during login');
+      setError(err instanceof Error ? err.message : 'An error occurred during login');
     } finally {
       setLoading(false);
     }

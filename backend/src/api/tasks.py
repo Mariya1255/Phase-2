@@ -4,7 +4,7 @@ from typing import List
 from uuid import UUID
 from ..database.database import get_session
 from ..middleware.auth_middleware import get_current_user, get_user_id_from_token
-from ..models.task import Task, TaskCreate, TaskUpdate, TaskResponse
+from ..models.task import Task, TaskCreate, TaskCreateRequest, TaskUpdate, TaskResponse, TaskStatus
 from ..services.task_service import (
     create_task,
     get_tasks_by_user,
@@ -16,9 +16,9 @@ from ..services.task_service import (
 
 router = APIRouter()
 
-@router.post("/tasks", response_model=TaskResponse)
+@router.post("/", response_model=TaskResponse)
 def create_user_task(
-    task_create: TaskCreate,
+    task_request: TaskCreateRequest,
     current_user: dict = Depends(get_current_user),
     session: Session = Depends(get_session)
 ):
@@ -26,15 +26,16 @@ def create_user_task(
     Create a new task for the authenticated user
     """
     try:
-        # Override user_id to ensure user can only create tasks for themselves
-        task_create.user_id = UUID(current_user["user_id"])
+        # Extract user_id from JWT token
+        user_id = UUID(current_user["user_id"])
 
-        # Verify that the authenticated user matches the requested user_id
-        if str(task_create.user_id) != current_user["user_id"]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized to create tasks for another user"
-            )
+        # Create TaskCreate object with user_id from token
+        task_create = TaskCreate(
+            title=task_request.title,
+            description=task_request.description,
+            status=task_request.status or TaskStatus.PENDING,
+            user_id=user_id
+        )
 
         task = create_task(session, task_create)
         return task
@@ -49,7 +50,7 @@ def create_user_task(
             detail=f"An error occurred while creating the task: {str(e)}"
         )
 
-@router.get("/tasks", response_model=List[TaskResponse])
+@router.get("/", response_model=List[TaskResponse])
 def get_user_tasks(
     current_user: dict = Depends(get_current_user),
     session: Session = Depends(get_session)
@@ -67,7 +68,7 @@ def get_user_tasks(
             detail=f"An error occurred while retrieving tasks: {str(e)}"
         )
 
-@router.get("/tasks/{task_id}", response_model=TaskResponse)
+@router.get("/{task_id}", response_model=TaskResponse)
 def get_user_task(
     task_id: UUID,
     current_user: dict = Depends(get_current_user),
@@ -98,7 +99,7 @@ def get_user_task(
             detail=f"An error occurred while retrieving the task: {str(e)}"
         )
 
-@router.put("/tasks/{task_id}", response_model=TaskResponse)
+@router.put("/{task_id}", response_model=TaskResponse)
 def update_user_task(
     task_id: UUID,
     task_update: TaskUpdate,
@@ -130,7 +131,7 @@ def update_user_task(
             detail=f"An error occurred while updating the task: {str(e)}"
         )
 
-@router.delete("/tasks/{task_id}")
+@router.delete("/{task_id}")
 def delete_user_task(
     task_id: UUID,
     current_user: dict = Depends(get_current_user),
@@ -161,7 +162,7 @@ def delete_user_task(
             detail=f"An error occurred while deleting the task: {str(e)}"
         )
 
-@router.get("/tasks/stats")
+@router.get("/stats")
 def get_user_task_stats(
     current_user: dict = Depends(get_current_user),
     session: Session = Depends(get_session)

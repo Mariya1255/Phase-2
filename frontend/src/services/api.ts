@@ -32,9 +32,9 @@ class ApiService {
   private async request(endpoint: string, options: RequestInit = {}) {
     const url = `${this.baseUrl}${endpoint}`;
 
-    const headers = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...options.headers as Record<string, string>,
     };
 
     // Add authorization header if token exists
@@ -75,7 +75,17 @@ class ApiService {
       }
 
       if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+        // FastAPI validation errors use 'detail' field, not 'message'
+        const errorMessage = data.detail || data.message || `HTTP error! status: ${response.status}`;
+
+        // Log full error details for debugging
+        console.error('API Error Details:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data
+        });
+
+        throw new Error(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
       }
 
       return data;
