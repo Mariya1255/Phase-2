@@ -2,7 +2,7 @@ from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError
 from ..models.user import User, UserCreate
 from ..utils.jwt import create_access_token
-from ..logging import log_auth_event
+from ..auth_logging import log_auth_event
 from passlib.context import CryptContext
 from typing import Optional
 from datetime import timedelta

@@ -16,42 +16,39 @@ router = APIRouter()
 
 @router.get("/", response_model=List[TodoResponse])
 def get_todos(
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Get all todos for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    todos = get_todos_by_user(session, user_id)
+    todos = get_todos_by_user(session, current_user_id)
     return todos
 
 
 @router.post("/", response_model=TodoResponse)
 def create_todo_endpoint(
     todo: TodoCreate,
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Create a new todo for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    db_todo = create_todo(session, todo, user_id)
+    db_todo = create_todo(session, todo, current_user_id)
     return db_todo
 
 
 @router.get("/{todo_id}", response_model=TodoResponse)
 def get_todo(
     todo_id: UUID,
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Get a specific todo by ID for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    db_todo = get_todo_by_id_and_user(session, todo_id, user_id)
+    db_todo = get_todo_by_id_and_user(session, todo_id, current_user_id)
 
     if db_todo is None:
         raise HTTPException(
@@ -66,14 +63,13 @@ def get_todo(
 def update_todo(
     todo_id: UUID,
     todo_update: TodoUpdate,
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Update a specific todo by ID for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    db_todo = update_todo_by_id_and_user(session, todo_id, user_id, todo_update)
+    db_todo = update_todo_by_id_and_user(session, todo_id, current_user_id, todo_update)
 
     if db_todo is None:
         raise HTTPException(
@@ -88,14 +84,13 @@ def update_todo(
 def update_todo_completion(
     todo_id: UUID,
     completed: bool,
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Toggle completion status of a specific todo for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    db_todo = toggle_todo_completion(session, todo_id, user_id, completed)
+    db_todo = toggle_todo_completion(session, todo_id, current_user_id, completed)
 
     if db_todo is None:
         raise HTTPException(
@@ -109,14 +104,13 @@ def update_todo_completion(
 @router.delete("/{todo_id}")
 def delete_todo(
     todo_id: UUID,
-    current_user_id: str = Depends(get_user_id_from_token),
+    current_user_id: UUID = Depends(get_user_id_from_token),
     session: Session = Depends(get_session)
 ):
     """
     Delete a specific todo by ID for the authenticated user
     """
-    user_id = UUID(current_user_id)
-    success = delete_todo_by_id_and_user(session, todo_id, user_id)
+    success = delete_todo_by_id_and_user(session, todo_id, current_user_id)
 
     if not success:
         raise HTTPException(

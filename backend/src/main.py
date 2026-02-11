@@ -18,6 +18,7 @@ from .exception_handlers import (
 # Import models to register them with SQLModel
 from .models.user import User
 from .models.todo import Todo
+from .models.task import Task
 
 # Load environment variables from backend directory
 # Ensure we load from the right location regardless of where the script is run from
@@ -118,4 +119,4 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8001)

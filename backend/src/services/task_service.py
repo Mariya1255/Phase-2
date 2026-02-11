@@ -2,7 +2,7 @@ from sqlmodel import Session, select
 from typing import List, Optional
 from ..models.task import Task, TaskCreate, TaskUpdate, TaskResponse
 from ..models.user import User
-from ..logging import log_auth_event
+from ..auth_logging import log_auth_event
 from uuid import UUID
 
 def create_task(session: Session, task_create: TaskCreate) -> Task:
