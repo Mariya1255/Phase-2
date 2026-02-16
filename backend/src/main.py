@@ -55,6 +55,7 @@ def create_app() -> FastAPI:
         "http://127.0.0.1:3000",
         "http://localhost:3001",  # Alternative Next.js port
         "http://127.0.0.1:3001",
+        
     ]
 
     app.add_middleware(
