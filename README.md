@@ -76,5 +76,5 @@ docker-compose up --build
 
 The application will be available at:
 - Frontend: http://localhost:3000
-- Backend: http://localhost:8000
+- Backend: http://localhost:8001
 - Health check: http://localhost:8000/health
