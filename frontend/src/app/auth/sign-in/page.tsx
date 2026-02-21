@@ -26,8 +26,8 @@ export default function SignInPage() {
 
       const data = await response.json();
 
-      // Store the token in localStorage
-      localStorage.setItem('token', data.token);
+      // Store the token in localStorage using the correct key
+      localStorage.setItem('auth-token', data.token);
 
       // Redirect to dashboard
       router.push('/dashboard');
