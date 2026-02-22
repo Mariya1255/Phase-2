@@ -55,8 +55,8 @@ def create_app() -> FastAPI:
         "http://127.0.0.1:3000",
         "http://localhost:3001",  # Alternative Next.js port
         "http://127.0.0.1:3001",
-        "http://frontend-red-omega-45.vercel.app"
-        
+        "https://frontend-red-omega-45.vercel.app",  # Production Vercel deployment (HTTPS)
+        "https://*.vercel.app",  # Allow all Vercel preview deployments
     ]
 
     app.add_middleware(

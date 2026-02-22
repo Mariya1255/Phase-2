@@ -3,7 +3,7 @@ class ApiService {
   private baseUrl: string;
   private token: string | null;
 
-  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8001') {
+  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001') {
     this.baseUrl = baseUrl;
     this.token = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null;
   }
