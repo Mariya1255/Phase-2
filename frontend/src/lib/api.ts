@@ -3,7 +3,7 @@ import { getToken } from './auth';
 // Base API client with JWT handling
 const apiClient = {
   get: async (endpoint: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'; // Fallback to default
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001'; // Fallback to default
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'GET',
       headers: {
@@ -48,7 +48,7 @@ const apiClient = {
   },
 
   post: async (endpoint: string, data: any) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'; // Fallback to default
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001'; // Fallback to default
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'POST',
       headers: {
@@ -94,7 +94,7 @@ const apiClient = {
   },
 
   put: async (endpoint: string, data: any) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'; // Fallback to default
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001'; // Fallback to default
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'PUT',
       headers: {
@@ -140,7 +140,7 @@ const apiClient = {
   },
 
   patch: async (endpoint: string, data: any) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'; // Fallback to default
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001'; // Fallback to default
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'PATCH',
       headers: {
@@ -186,7 +186,7 @@ const apiClient = {
   },
 
   delete: async (endpoint: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'; // Fallback to default
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001'; // Fallback to default
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'DELETE',
       headers: {
