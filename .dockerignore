@@ -1,0 +1,72 @@
+# Frontend files (not needed for backend deployment)
+frontend/
+node_modules/
+
+# Git files
+.git/
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+backend/venv/
+backend/backend_env/
+backend/todo_backend_env/
+env/
+venv/
+ENV/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+backend/*.log
+
+# Database files (SQLite)
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment files (will be set via Hugging Face Spaces secrets)
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+temp/
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment files
+.vercel/
+.claude/
+.gemini/
+.specify/
+
+# Other
+docker-compose.yml
+Dockerfile
+.dockerignore
