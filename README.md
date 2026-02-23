@@ -1,3 +1,12 @@
+---
+title: Todo Stack
+emoji: ✅
+colorFrom: blue
+colorTo: indigo
+sdk: static
+pinned: false
+---
+
 # Todo Full-Stack Web Application
 
 A secure, multi-user todo management application built with Next.js, FastAPI, and Neon PostgreSQL.
