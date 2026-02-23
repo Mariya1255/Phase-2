@@ -114,7 +114,7 @@ target/
 
 # Docker
 .dockerenv
-Dockerfile*
+# Dockerfile* - Commented out to allow Dockerfile for Hugging Face Spaces deployment
 
 # Database
 *.db
