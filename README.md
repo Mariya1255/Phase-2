@@ -5,8 +5,8 @@ colorFrom: blue
 colorTo: indigo
 sdk: docker
 app_port: 7860
-pinned: false
 ---
+
 
 # Todo Full-Stack Web Application
 
