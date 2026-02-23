@@ -11,7 +11,7 @@ export default function SignInPage() {
 
   const handleSignIn = async (email: string, password: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -50,7 +50,7 @@ const UserTasksPage = () => {
   const fetchTasks = async () => {
     try {
       setLoading(true);
-      const data: Task[] = await ApiClient.get('/api/tasks');
+      const data: Task[] = await ApiClient.get('/api/tasks/');
       setTasks(data);
     } catch (err: any) {
       setError('Failed to load tasks: ' + (err.message || 'Unknown error'));
@@ -70,7 +70,7 @@ const UserTasksPage = () => {
 
     try {
       setError('');
-      const createdTask: Task = await ApiClient.post('/api/tasks', {
+      const createdTask: Task = await ApiClient.post('/api/tasks/', {
         title: newTask.title,
         description: newTask.description,
         // Note: user_id will be overridden by the backend to ensure user isolation

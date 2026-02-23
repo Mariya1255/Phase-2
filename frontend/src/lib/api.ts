@@ -233,9 +233,9 @@ const apiClient = {
 
 // Specific API functions for todos
 export const todoApi = {
-  getTodos: () => apiClient.get('/api/todos'),
+  getTodos: () => apiClient.get('/api/todos/'),
   createTodo: (todo: { title: string; description?: string }) =>
-    apiClient.post('/api/todos', todo),
+    apiClient.post('/api/todos/', todo),
   updateTodo: (id: string, todo: { title?: string; description?: string; completed?: boolean }) =>
     apiClient.put(`/api/todos/${id}`, todo),
   toggleTodoCompletion: (id: string, completed: boolean) =>

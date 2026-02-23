@@ -3,8 +3,9 @@ class ApiService {
   private baseUrl: string;
   private token: string | null;
 
-  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001') {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl: string = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000') {
+    // Remove trailing slash from base URL if present
+    this.baseUrl = baseUrl.replace(/\/$/, '');
     this.token = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null;
   }
 
@@ -30,7 +31,9 @@ class ApiService {
 
   // Generic request method that includes authorization header
   private async request(endpoint: string, options: RequestInit = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
+    // Ensure endpoint starts with / and construct clean URL
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const url = `${this.baseUrl}${cleanEndpoint}`;
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
