@@ -50,18 +50,11 @@ def create_app() -> FastAPI:
     app.add_exception_handler(Exception, general_exception_handler)
 
     # CORS configuration
-    origins = [
-        "http://localhost:3000",  # Next.js default port
-        "http://127.0.0.1:3000",
-        "http://localhost:3001",  # Alternative Next.js port
-        "http://127.0.0.1:3001",
-        "https://frontend-red-omega-45.vercel.app",  # Production Vercel deployment (HTTPS)
-        "https://*.vercel.app",  # Allow all Vercel preview deployments
-    ]
+
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
