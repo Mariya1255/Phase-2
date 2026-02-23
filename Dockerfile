@@ -13,5 +13,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy the contents of the backend folder into /code
 COPY ./backend /code
 
-# Run the app (Assuming main.py is inside the backend folder)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+# Run the app (The app is in src/main.py inside the backend folder)
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "7860"]
