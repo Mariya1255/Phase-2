@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     // Get the backend API URL from environment variables
-    const backendUrl = process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8001';
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001';
 
     // Get the request body
     const body = await request.json();
