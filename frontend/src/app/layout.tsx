@@ -1,9 +1,10 @@
 import '../styles/globals.css';
 import type { Metadata } from 'next';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 export const metadata: Metadata = {
-  title: 'Todo App',
-  description: 'Secure Todo Management Application',
+  title: 'TaskFlow - Modern Task Management',
+  description: 'Professional task management platform for productive teams',
 };
 
 export default function RootLayout({
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
