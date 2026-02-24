@@ -203,7 +203,8 @@ export default function TasksPage() {
 
   const handleToggleComplete = async (task: Task) => {
     // Optimistic update
-    const newStatus = task.status === 'completed' ? 'pending' : 'completed';
+    const newStatus: 'pending' | 'in_progress' | 'completed' =
+      task.status === 'completed' ? 'pending' : 'completed';
     const optimisticTasks = tasks.map((t) =>
       t.id === task.id ? { ...t, status: newStatus } : t
     );
